@@ -1,2 +1,12 @@
-<h1>Hello World</h1>
-<p>See Me in views/static/index.html.erb</p>
+<h1>Quora</h1>
+
+<% if logged_in? %> 
+ <!-- true if current user exist, false otherwise -->
+  <form method="post" action="/logout">
+     <input type=submit value="Log out">
+  </form>
+<% else %>
+   <a href='/login'>Log in</a> 
+   <a href='/signup'>Sign up</a> 
+<% end %>
+
