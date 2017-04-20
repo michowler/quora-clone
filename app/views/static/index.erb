@@ -1,12 +1,52 @@
 <h1>Quora</h1>
 
+
 <% if logged_in? %> 
  <!-- true if current user exist, false otherwise -->
-  <form method="post" action="/logout">
-     <input type=submit value="Log out">
+ <a href="/users/<%= current_user.id %>"><p>Profile</p></a>
+  <form method= "post" action= "/logout">
+     <input type= submit value= "Log out">
   </form>
+
+<!-- #if just display create new post -->
+   <form method="post" action="/question">
+       <input type="text" placeholder="title" name="question[title]"><br>
+       <input type="text" placeholder="description" name="question[description]"></br>
+       <input type=submit value="Ask">
+   </form>
+
+ <!-- #else asked question then display existing post -->
+   <h2>Top stories</h2>
+   <% Question.all.each do |q| %>
+
+     <p><a href="/question/<%=q.id%>"><%= q.title %></a></p>
+     <p><%= q.description %></p>
+
+     <form method= "get" action="/question/<%=q.id%>">
+            <input type= submit value= "Answer">
+     </form>
+
+      <form method= "post" action="/question/<%=q.id%>/upvote">
+          
+          <% button_text = "Cancel Upvote" %>
+          <% current_vote = current_user.question_votes.where(question_id: q.id, vote_type: true) %>
+          <% if current_vote.empty? %>
+            <% button_text = "Upvote" %>
+          <% end %>
+
+          <input type= submit value= "<%= button_text %> | <%= QuestionVote.where(vote_type: true, question_id: q.id).count %>">
+      </form>
+
+      <form method= "post" action="/question/<%=q.id%>/downvote">
+             <input type= submit value= "Downvote | <%= QuestionVote.where(vote_type: false, question_id: q.id).count %> ">
+      </form>
+
+
+   <% end %>
+
 <% else %>
-   <a href='/login'>Log in</a> 
-   <a href='/signup'>Sign up</a> 
+   <a id= "login" href= '/login'>Log in</a> 
+   <a id= "signup" href='/signup'>Sign up</a> 
 <% end %>
+
 
