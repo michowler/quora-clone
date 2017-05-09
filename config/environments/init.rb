@@ -15,6 +15,11 @@ require 'logger'
 require 'bcrypt'
 require 'byebug'
 
+    #pagination
+require 'will_paginate'
+require 'will_paginate/active_record'
+require 'will_paginate/view_helpers/sinatra'
+
 	# sinatra
 require 'sinatra'
 require 'sinatra/flash'

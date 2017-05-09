@@ -1,6 +1,9 @@
 enable :sessions
 
+
 get '/' do
+  @questions = Question.all.paginate(:page => params[:page], :per_page => 2).order('id DESC')
+  #.order('id DESC') ==> shows latest
   erb :"static/index"
 end
 
